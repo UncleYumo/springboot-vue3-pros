@@ -1,0 +1,28 @@
+.btns {
+    padding: 10px 0 10px 10px;
+    background-color: #fff;
+}
+.image-list {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  .img-box {
+    position: relative;
+    .select {
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      width: 24px;
+      height: 24px;
+      background-color: #67c23a;
+      z-index: 999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+  .el-image {
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }
+}

@@ -1,0 +1,10 @@
+.aside-container {
+    height: 100%;
+    .logo-lg {
+        font-size: 20px;
+        text-align: center;
+        height: 50px;
+        line-height: 50px;
+        color: #fff;
+    }
+}

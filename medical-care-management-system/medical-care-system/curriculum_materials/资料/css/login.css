@@ -1,0 +1,16 @@
+:deep(.el-card__header) {
+    padding: 0
+  }
+  .login-container {
+    height: 100%;
+    .card-header{
+      background-color: #899fe1;
+      img {
+        width: 430px;
+      }
+    }
+    .jump-link {
+      text-align: right;
+      margin-bottom: 10px;
+    }
+  }

@@ -1,0 +1,17 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /start
+
+# Below is the Info of Email Authentication Configuration
+email:
+  user: wy13921971147@163.com
+  code: UJtE3A5wy246XMLi
+  host: smtp.163.com
+  auth: true
+  port: 587
+  protocol: smtp
+  subject: Verification Code from Spring Boot Quickstart
+  message: "Hello, distinguished user! Here is your verification code\n"
+
+  
