@@ -7,12 +7,16 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="springboot-create-manual" />
+        <module name="springboot-auto-config" />
         <module name="springboot-quickstart" />
+        <module name="dmybatis-spring-boot-starter" />
+        <module name="dmybatis-spring-boot-autoconfigure" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="springboot-auto-config" options="-parameters" />
       <module name="springboot-create-manual" options="-parameters" />
       <module name="springboot-quickstart" options="-parameters" />
     </option>

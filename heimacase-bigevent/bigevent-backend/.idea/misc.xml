@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="FindBugsConfigurable">
@@ -11,6 +12,9 @@
       <list>
         <option value="$PROJECT_DIR$/springboot-quickstart/pom.xml" />
         <option value="$PROJECT_DIR$/springboot-create-manual/pom.xml" />
+        <option value="$PROJECT_DIR$/springboot-auto-config/pom.xml" />
+        <option value="$PROJECT_DIR$/dmybatis-spring-boot-autoconfigure/pom.xml" />
+        <option value="$PROJECT_DIR$/dmybatis-spring-boot-starter/pom.xml" />
       </list>
     </option>
   </component>

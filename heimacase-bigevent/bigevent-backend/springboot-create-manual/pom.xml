@@ -58,10 +58,23 @@
       <artifactId>mysql-connector-j</artifactId>
     </dependency>
 
+<!--    <dependency>-->
+<!--      <groupId>org.mybatis.spring.boot</groupId>-->
+<!--      <artifactId>mybatis-spring-boot-starter</artifactId>-->
+<!--      <version>3.0.3</version>-->
+<!--    </dependency>-->
+
+<!--    自定义的mybatis-spring-boot-starter-->
     <dependency>
-      <groupId>org.mybatis.spring.boot</groupId>
-      <artifactId>mybatis-spring-boot-starter</artifactId>
-      <version>3.0.3</version>
+      <groupId>com.itheima</groupId>
+      <artifactId>dmybatis-spring-boot-starter</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.uncleyumo.utils</groupId>
+      <artifactId>ColorPrintUtils</artifactId>
+      <version>1.0</version>
     </dependency>
 
   </dependencies>
