@@ -1,4 +1,4 @@
-package com.itheima.service.impl
+package com.itheima.service
 
 import com.itheima.mapper.UserMapper
 import com.itheima.pojo.User

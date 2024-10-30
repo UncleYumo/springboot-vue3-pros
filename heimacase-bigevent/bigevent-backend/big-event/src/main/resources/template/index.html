@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div style="margin: 0 auto; width: 100%; text-align: center;">
+    <label for="text-area" >Here To Show The Request Response</label>
+    <img id="img-code" src="../data/img/lock2.jpg" alt="图像验证码" style="width: 100px; height: 25px; margin-top: 10px;" />
+    <textarea id="text-area" style="font-size: 12px; width: 80%; height: 100px; margin-top: 10px; text-align: center;">您还未校验图像验证码</textarea><br>
+    <label for="username-input"></label>
+    <span id="username-span" style="margin-right: 9px;">用户名</span>
+    <input type="text" id="username-input" value="jimmy"><br>
+    <label for="password-input"></label>
+    <span id="password-span" style="margin-right: 10px;">密&nbsp;&nbsp;&nbsp;码</span>
+    <input type="password" id="password-input" value="jimmy"><br>
+    <label for="img-code-input"></label>
+    <input type="text" id="img-code-input" style="width: 100px; height: 25px; margin-top: 10px;" placeholder="请输入验证码"><br>
+    <button id="request-btn01" style="margin-top: 10px;">GET CODE</button><br>
+    <button id="request-btn02" style="margin-top: 10px;">LOGIN</button><br>
+    <button id="request-btn03" style="margin-top: 10px;">REGISTER</button>
+</div>
+<script src="js/axios.min.js"></script>
+<script src="./js/index.js"></script>
+</body>
+</html>
