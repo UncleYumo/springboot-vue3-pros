@@ -15,4 +15,7 @@ import org.springframework.stereotype.Service
 interface UserService {
     fun findByUserName(username: String): User?
     fun register(username: String, password: String)
+    fun update(user: User)
+    fun updateAvatar(avatarUrl: String)
+    fun updatePwd(s: String)
 }

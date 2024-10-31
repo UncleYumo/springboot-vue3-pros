@@ -20,13 +20,13 @@ class ResultInfo (
 ): SelfColorPrinter {
     companion object {
 
-        fun success(data: Any?): ResultInfo = ResultInfo(0, "操作成功", data ?: "Data Parameter is Null")
+        fun success(data: Any?): ResultInfo = ResultInfo(0, "预设消息: 操作成功", data ?: "Data Parameter is Null")
 
 
-        fun success(): ResultInfo = ResultInfo(0, "操作成功", null)
+        fun success(): ResultInfo = ResultInfo(0, "预设消息: 操作成功", null)
 
 
-        fun error(msg: String, data: Any? = null): ResultInfo = ResultInfo(1, "错误日志: $msg", data)
+        fun error(msg: String, data: Any? = null): ResultInfo = ResultInfo(1, "预设错误消息: $msg", data)
     }
 
     override fun colorPrinterCyanBlack() {

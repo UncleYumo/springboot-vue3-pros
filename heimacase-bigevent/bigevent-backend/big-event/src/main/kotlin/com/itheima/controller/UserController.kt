@@ -1,23 +1,24 @@
 package com.itheima.controller
 
 import com.itheima.pojo.ResultInfo
-import com.itheima.pojo.ResultKT
 import com.itheima.pojo.User
 import com.itheima.service.UserService
 import com.itheima.utils.JwtUtil
 import com.itheima.utils.Md5Util
+import com.itheima.utils.ThreadLocalUtil
 import com.uncleyumo.utils.Color_Print_Utils
 import jakarta.servlet.http.Cookie
 import jakarta.servlet.http.HttpServletResponse
-import org.intellij.lang.annotations.Pattern
+import org.hibernate.validator.constraints.URL
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestHeader
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 /**
@@ -26,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController
  * @createDate 2024/10/27 October
  * @school 无锡学院
  * @studentID 22344131
- * @description
+ * @description 用户相关接口
  */
 
 @CrossOrigin(origins = ["http://localhost:63342"], allowCredentials = "true")
@@ -117,6 +118,7 @@ open class UserController {
         return "ok"
     }
 
+    /**
     @GetMapping("/userInfo")
     fun userInfo(@RequestHeader("Authorization") token: String) : ResultInfo {
         Color_Print_Utils.getInstance().printlnYellow("\n请求路径: /user/userInfo(GET) | token: [${token}]")
@@ -127,5 +129,65 @@ open class UserController {
             userPic = privacySymbol  // 隐藏头像
             email = privacySymbol  // 隐藏邮箱
         })
+    }
+    */
+
+    @GetMapping("/userInfo")
+    fun userInfo() : ResultInfo {
+        val map = ThreadLocalUtil.get() as Map<*, *>
+        Color_Print_Utils.getInstance().printlnYellow("\n请求路径: /user/userInfo(GET) | ThreadLocal: [${map}]")
+        return ResultInfo.success((userService.findByUserName(map["username"] as String) as User).apply {
+            this.password = privacySymbol  // 隐藏密码
+            userPic = privacySymbol  // 隐藏头像
+            email = privacySymbol  // 隐藏邮箱
+            userPic = privacySymbol  // 隐藏头像
+        })
+    }
+
+    @PostMapping("/update")
+    fun update(@RequestBody user: User): ResultInfo {
+        Color_Print_Utils.getInstance().printlnYellow("\n请求路径: /user/update(POST) | user:\n" +
+                "${user.colorPrinterCyanBlackWithUser()}")
+        userService.update(user.apply {
+            if (id == null || nickname.isNullOrBlank() || email.isNullOrBlank()) return ResultInfo.error("参数错误或缺失")
+            // nick匹配正则表达式: 1 - 10位，只能包含字母、数字、下划线
+            if (nickname?.matches(Regex("^[a-zA-Z0-9_]{1,10}$")) == false) {
+                return ResultInfo.error("昵称格式错误：只能包含字母、数字、下划线，且长度在1-10之间")
+            }
+            if (email?.matches(Regex("^\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$")) == false) {
+                return ResultInfo.error("邮箱格式错误")
+            }
+        })
+        return ResultInfo.success()
+    }
+
+    @PatchMapping("/updateAvatar")
+    fun updateAvatar(@RequestParam avatarUrl: String) : ResultInfo {
+        avatarUrl.let {
+            Color_Print_Utils.getInstance().printlnYellow("\n请求路径: /user/updateAvatar(PATCH) | avatarUrl: $avatarUrl")
+            if (!it.matches(Regex("^https?://.*$"))) return ResultInfo.error("头像URL格式错误")
+        }
+        userService.updateAvatar(avatarUrl)
+        return ResultInfo.success()
+    }
+
+    @PatchMapping("/updatePwd")
+    fun updatePwd(@RequestBody params: Map<String, String>) : ResultInfo {
+        Color_Print_Utils.getInstance().printlnYellow("\n请求路径: /user/updatePwd(PATCH) | params: $params")
+        // 校验参数
+        params.also {
+            if (it["old_pwd"].isNullOrBlank() || it["new_pwd"].isNullOrBlank() || it["re_pwd"].isNullOrBlank()) {
+                return ResultInfo.error("参数错误或缺失")
+            }
+            val username = ThreadLocalUtil.get() as Map<*, *>
+            val user = userService.findByUserName(username["username"] as String)?: return ResultInfo.error("对应username未查询到用户")
+            if (user.password != Md5Util.getMD5String(it["old_pwd"] as String)) return ResultInfo.error("输入的旧密码错误")
+            if (it["new_pwd"] != it["re_pwd"]) return ResultInfo.error("两次输入的新密码不一致")
+            if (it["new_pwd"]?.matches(Regex("^[a-zA-Z0-9_]{5,16}$")) == false) {
+                return ResultInfo.error("密码格式错误：只能包含字母、数字、下划线，且长度在5-16之间")
+            }
+            userService.updatePwd(it["new_pwd"] as String)
+        }
+        return ResultInfo.success()
     }
 }

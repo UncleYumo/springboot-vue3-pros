@@ -10,4 +10,4 @@ mybatis:
     map-underscore-to-camel-case: true  # 驼峰命名规则
 
 uncleyumo:
-  privacy-symbol: "**********"
+  privacy-symbol: "xxxxxxxxxx"
