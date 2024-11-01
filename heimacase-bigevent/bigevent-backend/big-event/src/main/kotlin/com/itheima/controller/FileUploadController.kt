@@ -1,0 +1,14 @@
+package com.itheima.controller
+
+/**
+ * @author uncle_yumo
+ * @fileName FileController
+ * @createDate 2024/11/1 November
+ * @school 无锡学院
+ * @studentID 22344131
+ * @description
+ */
+
+class FileUploadController {
+    
+}
