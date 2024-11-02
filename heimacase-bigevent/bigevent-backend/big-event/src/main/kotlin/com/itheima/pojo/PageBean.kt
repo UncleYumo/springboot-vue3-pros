@@ -6,8 +6,10 @@ package com.itheima.pojo
  * @createDate 2024/11/1 November
  * @school 无锡学院
  * @studentID 22344131
- * @description 
+ * @description
  */
 
-class PageBean {
-}
+data class PageBean<T>(
+    var total: Long? = null,  // 总记录数
+    var items: List<T>? = null  // 当前页数据
+)

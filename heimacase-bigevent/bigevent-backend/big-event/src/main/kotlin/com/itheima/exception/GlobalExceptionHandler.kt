@@ -19,7 +19,7 @@ class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception::class)  // 捕获所有异常
     fun handleException(e: Exception): ResultInfo {
-        Color_Print_Utils.getInstance().printlnYellow("\n全局异常处理 handleException() | e.message: ${e.message?:"Unknown Exception's message"}")
+        Color_Print_Utils.getInstance().printlnYellow("\n全局异常处理 handleException() | e.message: ${e.message?:"出现未知异常"}")
         return ResultInfo.error(msg = e.message?: "出现未知异常 请联系管理员", data = null)
     }
 }

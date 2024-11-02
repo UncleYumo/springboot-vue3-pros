@@ -64,9 +64,9 @@ open class UserController {
             Color_Print_Utils.getInstance().printlnYellow("Info | 用户名已被占用")
             ResultInfo.error("用户名已被占用")
         } else {  // 用户不存在
-            userService.register(username, password!!)
+            userService.register(username, password!!)  // 注册用户
             Color_Print_Utils.getInstance().printlnGreen("Info | 用户注册成功")
-            ResultInfo.success()
+            ResultInfo.success()  // 注册成功
         }
     }
 
@@ -97,7 +97,7 @@ open class UserController {
             val token = JwtUtil.genToken(map)
             response.apply {
                 addCookie(Cookie("big-event-token", token).apply {
-                    maxAge = 60 * 10  // 10分钟有效期
+                    maxAge = 60 * 60  // 有效期1小时
                     path = "/"  // 路径为根路径
                 })
             }

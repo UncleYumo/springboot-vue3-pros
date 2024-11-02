@@ -1,0 +1,4 @@
+springboot-vue3-pros/heimacase-bigevent/bigevent-backend/big-event/src/main/resources/application.yml
+*.yml
+**/*.yml
+springboot-vue3-pros/heimacase-bigevent/bigevent-backend/big-event/target

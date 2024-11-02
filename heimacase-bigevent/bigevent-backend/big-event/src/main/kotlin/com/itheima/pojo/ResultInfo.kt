@@ -1,8 +1,6 @@
 package com.itheima.pojo
 
-import com.fasterxml.jackson.annotation.JsonProperty
 import com.uncleyumo.utils.Color_Print_Utils
-import kotlin.Result
 
 /**
  * @author uncle_yumo
@@ -13,7 +11,7 @@ import kotlin.Result
  * @description
  */
 
-class ResultInfo (
+class ResultInfo(
     var code: Int,
     var message: String,
     var data: Any?
