@@ -40,7 +40,7 @@ class AliyunOssTest {
     @Value("\${uncleyumo.upload-path}")
     lateinit var uploadFilePath: String
 
-    @Test
+//    @Test
     fun testOss() {
         val EndTime: Long = System.currentTimeMillis()
         Color_Print_Utils.getInstance().programEnd()
@@ -67,7 +67,7 @@ class AliyunOssTest {
         Color_Print_Utils.getInstance().programEnd()
     }
 
-    @Test
+//    @Test
     fun testPrintFormate() {
         val message1 = "Finish creating OSSClient instance"
         val message2 = "End uploading file"

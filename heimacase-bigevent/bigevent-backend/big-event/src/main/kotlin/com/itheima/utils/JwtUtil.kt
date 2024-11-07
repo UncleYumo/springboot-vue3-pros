@@ -20,7 +20,7 @@ class JwtUtil {
         fun genToken(claims: Map<String, Any>): String {
             return JWT.create()
                 .withClaim("claims", claims)  // 负添加载
-                .withExpiresAt(Date(System.currentTimeMillis() + 1000 * 60 * 10))  // 设置过期时间：10分钟
+                .withExpiresAt(Date(System.currentTimeMillis() + 1000 * 60 * 60))  // 设置过期时间：10分钟
                 .sign(Algorithm.HMAC256(KEY))
         }
 

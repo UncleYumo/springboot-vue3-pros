@@ -48,7 +48,7 @@ class ArticleServiceImpl : ArticleService {
         // 调用Mapper查询方法
         val userId = ((ThreadLocalUtil.get() as Map<*, *>)["id"] as String).toInt()  // 获取当前登录用户的id
 
-        val list = articleMapper.list(categoryId, state, userId)?: Color_Print_Utils.getInstance().printlnRed("!!!articleMapper.list() | list is null")
+        val list = articleMapper.list(categoryId, state, userId)
         val pg = list as Page<*>  // 强转为Page<Article>
 
         Color_Print_Utils.getInstance().printlnPurple("\nArticleServiceImpl list(pageNum: Int, pageSize: Int, categoryId: Int?, state: String?) called\nuserId: $userId | pageNum: $pageNum | pageSize: $pageSize | categoryId: $categoryId | state: $state\n")

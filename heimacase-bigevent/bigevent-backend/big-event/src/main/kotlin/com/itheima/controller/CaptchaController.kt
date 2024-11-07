@@ -23,7 +23,7 @@ import java.text.SimpleDateFormat
  */
 
 @RestController
-@CrossOrigin(origins = ["http://localhost:63342"], allowCredentials = "true")
+//@CrossOrigin(origins = ["http://localhost:63342"], allowCredentials = "true")
 @RequestMapping("/captcha")
 class CaptchaController {
     @RequestMapping("/getOutPutStream")

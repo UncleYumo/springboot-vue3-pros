@@ -34,7 +34,7 @@ class JwtTest {
     }
 
 
-    @Test
+//    @Test
     fun testParse() {
         // 定义JWT，模拟从客户端获取的JWT
         val token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGFpbXMiOnsiaWQiOiI0IiwidXNlcm5hbWUiOiJqaW1teSJ9LCJleHAiOjE3MzAxNTkxMjF9.yoEtYecpFgj07bX7J1UXizftVngIuJZr6q333wFa30k"

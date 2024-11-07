@@ -12,14 +12,9 @@ import jakarta.servlet.http.HttpServletResponse
 import org.hibernate.validator.constraints.URL
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.web.bind.annotation.CrossOrigin
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PatchMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.data.redis.core.StringRedisTemplate
+import org.springframework.web.bind.annotation.*
+import java.util.concurrent.TimeUnit
 
 /**
  * @author uncle_yumo
@@ -40,6 +35,9 @@ open class UserController {
 
     @Value("\${uncleyumo.privacy-symbol}")
     lateinit var privacySymbol: String  // 隐私符号
+
+    @Autowired
+    lateinit var stringRedisTemplate: StringRedisTemplate
 
     @PostMapping("/register")
     fun register(
@@ -101,6 +99,8 @@ open class UserController {
                     path = "/"  // 路径为根路径
                 })
             }
+            val operations = stringRedisTemplate.opsForValue()  // 操作redis
+            operations.set(token, token, 60 * 60, TimeUnit.SECONDS)
             ResultInfo.success(data = token)
         }
     }
@@ -158,6 +158,7 @@ open class UserController {
                 return ResultInfo.error("邮箱格式错误")
             }
         })
+        // 删除redis中对应的token
         return ResultInfo.success()
     }
 
@@ -172,8 +173,9 @@ open class UserController {
     }
 
     @PatchMapping("/updatePwd")
-    fun updatePwd(@RequestBody params: Map<String, String>) : ResultInfo {
+    fun updatePwd(@RequestBody params: Map<String, String>, @RequestHeader("Authorization") token: String) : ResultInfo {
         Color_Print_Utils.getInstance().printlnYellow("\n请求路径: /user/updatePwd(PATCH) | params: $params")
+
         // 校验参数
         params.also {
             if (it["old_pwd"].isNullOrBlank() || it["new_pwd"].isNullOrBlank() || it["re_pwd"].isNullOrBlank()) {
@@ -187,6 +189,10 @@ open class UserController {
                 return ResultInfo.error("密码格式错误：只能包含字母、数字、下划线，且长度在5-16之间")
             }
             userService.updatePwd(it["new_pwd"] as String)
+
+            // 删除redis中对应的token
+            val operations = stringRedisTemplate.opsForValue()
+            operations.operations.delete(token)
         }
         return ResultInfo.success()
     }

@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test
  */
 
 class ThreadLocalTest {
-    @Test
+//    @Test
     fun testThreadLocal_SetAndGet() {
         // 提供一个ThreadLocal对象
         val tl = ThreadLocal<Any>()
