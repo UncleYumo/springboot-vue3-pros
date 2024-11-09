@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 引入Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        // console.log("开始请求");
+        // axios({
+        //     method: 'get',
+        //     // url: 'http://uncleyumo.cn/big-event/user/login'
+        //     url: 'http://localhost:8080/article/test'
+        //     // url: 'http://localhost:8080/user/login'
+        // }).then(res => {
+        //     // 成功的回调
+        //     console.log(res.data);
+        //     console.log("请求结束");
+        // }).catch(err => {
+        //     // 失败的回调
+        //     console.log("Error Happened : " + err);
+        //     console.log("请求结束");
+        // });
+
+        // fetch('http://localhost:8080/article', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //         'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGFpbXMiOnsiaWQiOiI0IiwidXNlcm5hbWUiOiJqaW1teSJ9LCJleHAiOjE3MzExNDQ4NjJ9.M-Xp0DtgQ06A8BxE07b_Lo_tvqpJ6lbvBYqtt19j_2I'
+        //     },
+        //     body: JSON.stringify({
+        //         pageNum: 1,
+        //         pageSize: 1,
+        //     })
+        // })
+        //     .then(response => response.json())
+        //     .then(data => console.log(data))
+        //     .catch(err => console.error('Error:', err));
+        //
+        // axios({
+        //     method: 'post',
+        //     url: 'http://localhost:8080/user/login',
+        //     data: {
+        //         username: "jimmy",
+        //         password: "jimmy"
+        //     },
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     }
+        // }).then(res => {
+        //     console.log(res.data)
+        // }).catch(err => {
+        //     console.log(err);
+        // })
+        //
+        // let article = {
+        //     title: "一二三四五六七八九十",
+        //     content: "兵马俑,华清池,法门寺,华山...爱去哪去哪...",
+        //     coverImg: "https://big-event-gwd.oss-cn-beijing.aliyuncs.com/9bf1cf5b-1420-4c1b-91ad-e0f4631cbed4.jpg",
+        //     state: "已发布",
+        //     categoryId: 1
+        // }
+        //
+        // let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGFpbXMiOnsiaWQiOiI0IiwidXNlcm5hbWUiOiJqaW1teSJ9LCJleHAiOjE3MzExNDQ4NjJ9.M-Xp0DtgQ06A8BxE07b_Lo_tvqpJ6lbvBYqtt19j_2I'
+        //
+        // axios({
+        //     method: 'get',
+        //     // url: 'http://uncleyumo.cn/big-event/article',
+        //     url: 'http://localhost:8080/article',
+        //     // url: 'http://localhost:8080/user/userInfo',
+        //     // url: 'http://localhost:8080/article/detail?id=1',
+        //     // data: article,
+        //     data: {
+        //         pageNum: 1,
+        //         pageSize: 1
+        //     },
+        //     headers: {
+        //         'Authorization': token,
+        //         'Content-Type': 'application/json'
+        //     }
+        // }).then(res => {
+        //     // 成功的回调
+        //     console.log(res.data);
+        //     console.log("请求结束");
+        // }).catch(err => {
+        //     // 失败的回调
+        //     console.log("Error Happened : " + err);
+        //     console.log("请求结束");
+        // });
+
+        // axios.get('http://localhost:8080/article/test', {
+        //     headers: {
+        //         // 'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGFpbXMiOnsiaWQiOiI0IiwidXNlcm5hbWUiOiJqaW1teSJ9LCJleHAiOjE3MzExNDQ4NjJ9.M-Xp0DtgQ06A8BxE07b_Lo_tvqpJ6lbvBYqtt19j_2I'
+        //     }
+        // }).then(res => {
+        //     console.log(res.data);
+        // }).catch(err => {
+        //     console.log(err);
+        // });
+
+        // let user = {
+        //     username: "jimmy",
+        //     password: "jimmy"
+        // }
+
+        // axios.post('http://localhost:8080/user/login', {
+        //     username: "jimmy",
+        //     password: "jimmy"
+        // }).then(res => {
+        //     console.log(res.data.data);
+        //     alert(res.data.data)
+        // }).catch(err => {
+        //     console.log(err);
+        // });
+
+        // axios.post('http://localhost:8080/user/register', user).then(res => {
+        //     console.log(res.data);
+        // }).catch(err => {
+        //     console.log(err);
+        // });
+        //
+        // let xhr = new XMLHttpRequest();
+        // let url = 'http://uncleyumo.cn/big-event/user/login';
+        // xhr.open('POST', url, true)
+        // xhr.setRequestHeader('Content-Type', 'application/json')
+        // let obj = {
+        //     username: "jimmy",
+        //     password: "jimmy"
+        // }
+        // xhr.send(JSON.stringify(obj))
+        // xhr.onreadystatechange = function () {
+        //     if (xhr.readyState === 4 && xhr.status === 200) {
+        //         let json = JSON.parse(xhr.responseText)
+        //         console.log(json)
+        //     }
+        // }
+
+        axios.post('http://localhost:8080/user/register', {
+            username: "jimmy",
+            password: "jimmy"
+        }).then(res => {
+            console.log(res.data);
+            alert(res.data.message)
+        }).catch(err => {
+            console.log(err);
+        });
+
+    </script>
+</body>
+
+</html>

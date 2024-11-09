@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        #app {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <button style="margin-top: 20px;
+        margin-bottom: 20px;" v-on:click="money">点我有惊喜</button><br>
+
+        <button v-on:click="love">再点更惊喜</button>
+    </div>
+
+    <script type="module">
+        import { createApp } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
+        createApp({
+            data() {
+                return {
+
+                }
+            },
+            methods: {
+                money: function () {
+                    alert("送你钱100");
+                },
+                love: function () {
+                    alert("爱你一万年");
+                }
+            },
+            mounted: function() {
+                console.log("VUE挂载完毕, 发送请求")
+            }
+        }).mount("#app");
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            height: 100vh;
+            /* Make sure the body takes full height */
+            margin: 0
+                /* Remove default margin */
+        }
+
+        #app {
+            text-align: center;
+            background-color: rgb(207, 250, 250)
+        }
+
+        table {
+            width: 80%;
+            background-color: rgb(168, 251, 223)
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="app">
+        <h1>{{msg}}</h1><br>
+        文章分类：<input type="text" v-model="searchCondition.category">
+        发布状态：<input type="text" v-model="searchCondition.state">&nbsp
+
+        <button v-on:click="search">搜索</button> <button v-on:click="clear">重置</button><br><br>
+
+        <table>
+            <tr>
+                <th>标题</th>
+                <th>分类</th>
+                <th>发表时间</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+            <tr v-for="(article, index) in articleList" v-if="searchCondition.state == null && searchCondition.category == null">
+                <th>{{article.title}}</th>
+                <th>{{article.category}}</th>
+                <th>{{article.time}}</th>
+                <th>{{article.state}}</th>
+                <th>
+                    <button>编辑</button>
+                    <button>删除</button>
+                </th>
+            </tr>
+            <tr v-for="(article, index) in articleList" v-else-if="searchCondition.state == null">
+                <th v-show="article.category == searchCondition.category">{{article.title}}</th>
+                <th v-show="article.category == searchCondition.category">{{article.category}}</th>
+                <th v-show="article.category == searchCondition.category">{{article.time}}</th>
+                <th v-show="article.category == searchCondition.category">{{article.state}}</th>
+                <th v-show="article.category == searchCondition.category">
+                    <button>编辑</button>
+                    <button>删除</button>
+                </th>
+            </tr>
+            <tr v-for="(article, index) in articleList" v-else-if="searchCondition.category == null">
+                <th v-show="article.state == searchCondition.state">{{article.title}}</th>
+                <th v-show="article.state == searchCondition.state">{{article.category}}</th>
+                <th v-show="article.state == searchCondition.state">{{article.time}}</th>
+                <th v-show="article.state == searchCondition.state">{{article.state}}</th>
+                <th v-show="article.state == searchCondition.state">
+                    <button>编辑</button>
+                    <button>删除</button>
+                </th>
+            </tr>
+            <tr v-for="(article, index) in articleList" v-else="">
+                <th v-show="article.category == searchCondition.category && article.state == searchCondition.state">{{article.title}}</th>
+                <th v-show="article.category == searchCondition.category && article.state == searchCondition.state">{{article.category}}</th>
+                <th v-show="article.category == searchCondition.category && article.state == searchCondition.state">{{article.time}}</th>
+                <th v-show="article.category == searchCondition.category && article.state == searchCondition.state">{{article.state}}</th>
+                <th v-show="article.category == searchCondition.category && article.state == searchCondition.state">
+                    <button>编辑</button>
+                    <button>删除</button>
+                </th>
+            </tr>
+        </table>
+
+        <button v-on:click="evalute">EVALUTE</button>
+    </div>
+
+    <!-- Import Vue module -->
+    <script type="module">
+        import { createApp } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+
+        createApp({
+            data() {
+                return {
+                    searchCondition: {
+                        category: null,
+                        state: null
+                    },
+                    msg: "QUICKSTART WITH VUE3",
+                    articleList: [
+                        {
+                            title: "医疗反腐绝非砍医护收入",
+                            category: "时事",
+                            time: "2023-09-5",
+                            state: "已发布"
+                        },
+                        {
+                            title: "中国男篮缘何一败涂地？",
+                            category: "篮球",
+                            time: "2023-09-5",
+                            state: "草稿"
+                        },
+                        {
+                            title: "华山景区已受大风影响阵风达7-8级，未来24小时将持续",
+                            category: "旅游",
+                            time: "2023-09-5",
+                            state: "已发布"
+                        }
+                    ]
+                }
+            },
+
+            methods: {
+                search: function () {
+                    alert(this.searchCondition.category + " " + this.searchCondition.state)
+                },
+                clear: function () {
+                    this.searchCondition.category = null
+                    this.searchCondition.state = null
+                },
+                evalute: function () {
+                    let str1 = "1234567"
+                    let str2 = "123"
+                    let str3 = "321"
+                    if (str1.includes(str2)) {
+                        alert("'1234567'.includes('123')")
+                    }
+                    if (str1.includes(str3)) {
+                        alert("'1234567'.includes('321')")
+                    } else {
+                        alert("'1234567'.includes('321') is false")
+                    }
+                }
+            }
+
+        }).mount("#app") 
+    </script>
+</body>
+
+</html>

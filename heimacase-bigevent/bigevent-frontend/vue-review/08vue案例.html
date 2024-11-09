@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        #app {
+            /* text-align: center; */
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="app">
+
+        文章分类: <input type="text" v-model="searchCondition.category">
+
+        发布状态: <input type="text" v-model="searchCondition.state"><br><br>
+
+        页面片数: <input type="text" v-model="pageCondition.pageNum">
+
+        单页容量: <input type="text" v-model="pageCondition.pageSize">
+
+        <button v-on:click="search">搜索</button>
+        <table border="1 solid" colspa="0" cellspacing="0">
+            <tr>
+                <th>文章标题</th>
+                <th>分类</th>
+                <th>发表时间</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+            <tr v-for="(item, index) in articleList.items" :key="index">
+                <td>{{item.title}}</td>
+                <td>{{item.categoryId}}</td>
+                <td>{{item.updateTime}}</td>
+                <td>{{item.state}}</td>
+                <td>
+                    <button>编辑</button>
+                    <button>删除</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <!-- 引入Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script type="module">
+        import { createApp } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
+
+        let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGFpbXMiOnsiaWQiOiI0IiwidXNlcm5hbWUiOiJqaW1teSJ9LCJleHAiOjE3MzExNjI3NzR9.JpCrUOMK_dizk3h165cuOTHHYGMfvnqFjTYVRYBR4Gw";
+
+        // 创建Vue应用实例
+        const app = createApp({
+            data() {
+                return {
+                    articleList: [],
+                    searchCondition: {
+                        category: 1,
+                        state: '1'
+                    },
+                    pageCondition: {
+                        pageNum: 1,
+                        pageSize: 10
+                    }
+                }
+            },
+            methods: {
+                search: function () {
+                    axios.get(
+                        `http://localhost:8080/article?
+                        pageNum=${this.pageCondition.pageNum}&
+                        pageSize=${this.pageCondition.pageSize}&
+                        categoryId=${this.searchCondition.category}&
+                        state=${this.searchCondition.state}`, {
+                        headers: {
+                            'Authorization': token
+                        }
+                    }).then(res => {
+                        console.log(res.data);
+                        this.articleList = res.data.data;
+                    }).catch(err => {
+                        console.log(err);
+                    });
+                }
+            },
+            // 钩子函数
+            mounted: function () {
+                console.log(token);
+                // 发送请求获取数据
+                axios.get('http://localhost:8080/article?pageNum=1&pageSize=20', {
+                    headers: {
+                        'Authorization': token
+                    }
+                }).then(res => {
+                    console.log(res.data);
+                    this.articleList = res.data.data;
+                }).catch(err => {
+                    console.log(err);
+                });
+            }
+        });
+        app.mount('#app');
+    </script>
+
+
+</body>
+
+</html>
