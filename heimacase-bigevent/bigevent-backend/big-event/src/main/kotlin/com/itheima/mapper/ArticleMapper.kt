@@ -36,4 +36,7 @@ interface ArticleMapper {
     // 根据id删除文章
     @Delete("delete from article where id = #{id}")
     fun delete(id: Int)
+
+    @Select("select * from article")
+    fun listAll() : List<Article>?
 }

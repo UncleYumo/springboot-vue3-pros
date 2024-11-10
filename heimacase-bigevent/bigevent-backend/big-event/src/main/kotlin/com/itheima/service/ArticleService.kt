@@ -23,4 +23,7 @@ interface ArticleService {
     // 根据id查询文章
     fun detail(id: Int): Article?
     fun delete(id: Int)
+
+    // 查询所有文章（隐藏的测试接口）
+    fun listAll(): List<Article>?
 }

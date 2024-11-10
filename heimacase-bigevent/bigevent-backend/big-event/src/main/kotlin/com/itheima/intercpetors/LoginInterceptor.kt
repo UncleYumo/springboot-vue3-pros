@@ -27,6 +27,21 @@ class LoginInterceptor : HandlerInterceptor {
 
     // 调用 HandlerInterceptor 接口的 preHandle 方法，在请求处理之前进行拦截
     override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
+        // 跨域请求
+        if (request.method == "OPTIONS") {
+            response.status = 200  // 允许跨域请求
+            response.setHeader(
+                "Access-Control-Allow-Origin",
+                "*"
+            )
+            response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT")
+            response.setHeader("Access-Control-Max-Age", "3600")
+            response.setHeader("Access-Control-Allow-Headers", "x-requested-with, authorization, content-type")
+            Color_Print_Utils.getInstance().printlnGreen("\n登录拦截器 | 跨域预检请求")
+            return false  // 验证成功
+        }
+
+
         // 令牌验证
         val token = request.getHeader("Authorization")
 

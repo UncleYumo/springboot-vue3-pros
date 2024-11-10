@@ -65,4 +65,8 @@ class ArticleServiceImpl : ArticleService {
     override fun delete(id: Int) {
         articleMapper.delete(id)
     }
+
+    override fun listAll(): List<Article>? {
+        return articleMapper.listAll()
+    }
 }

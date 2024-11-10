@@ -73,4 +73,10 @@ class ArticleController {
         return ResultInfo.success()
     }
 
+    @GetMapping("/article/getAll")
+    fun getAll(secret: String) : ResultInfo {
+        if (secret != "991650") return ResultInfo.error("此接口仅限管理员使用")
+        return ResultInfo.success(articleService.listAll())
+    }
+
 }

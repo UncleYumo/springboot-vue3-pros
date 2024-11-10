@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit
  * @description 用户相关接口
  */
 
-@CrossOrigin(origins = ["http://localhost:63342"], allowCredentials = "true")
+//@CrossOrigin(origins = ["http://localhost:63342"], allowCredentials = "true")
 @RestController
 @RequestMapping("/user")  // 全局路径前缀
 open class UserController {
@@ -44,10 +44,11 @@ open class UserController {
         username: String?,
         password: String?
     ): ResultInfo {
-        Color_Print_Utils.getInstance().printlnYellow("\n请求路径: /user/register(POST) | username: $username, password: $password")
+        Color_Print_Utils.getInstance()
+            .printlnYellow("\n请求路径: /user/register(POST) | username: $username, password: $password")
         // 验证用户名和密码是否合法
         val verifyResult = verifyUsernameAndPassword(username, password)
-        if (verifyResult!= "ok") {
+        if (verifyResult != "ok") {
             return when (verifyResult) {
                 "用户名或密码不能为空" -> ResultInfo.error("用户名或密码不能为空")
                 "用户名或密码长度不合法" -> ResultInfo.error("用户名或密码长度不合法")
@@ -69,11 +70,14 @@ open class UserController {
     }
 
     @PostMapping("/login")
-    fun login(username: String?, password: String?, response: HttpServletResponse): ResultInfo {
-        Color_Print_Utils.getInstance().printlnYellow("\n请求路径: /user/login(POST) | username: $username, password: $password")
+    fun login(@RequestBody params: Map<String, String>, response: HttpServletResponse): ResultInfo {
+        val username: String? = params["username"]?: ""
+        val password: String? = params["password"]?: ""
+        Color_Print_Utils.getInstance()
+            .printlnYellow("\n请求路径: /user/login(POST) | username: $username, password: $password")
         // 验证用户名和密码是否合法
         val verifyResult = verifyUsernameAndPassword(username, password)
-        if (verifyResult!= "ok") {
+        if (verifyResult != "ok") {
             return when (verifyResult) {
                 "用户名或密码不能为空" -> ResultInfo.error("用户名或密码不能为空")
                 "用户名或密码长度不合法" -> ResultInfo.error("用户名或密码长度不合法")
@@ -121,19 +125,19 @@ open class UserController {
     /**
     @GetMapping("/userInfo")
     fun userInfo(@RequestHeader("Authorization") token: String) : ResultInfo {
-        Color_Print_Utils.getInstance().printlnYellow("\n请求路径: /user/userInfo(GET) | token: [${token}]")
-        val map = JwtUtil.parseToken(token)
-        val username = map["username"] as String
-        return ResultInfo.success(userService.findByUserName(username)?.apply {
-            this.password = privacySymbol  // 隐藏密码
-            userPic = privacySymbol  // 隐藏头像
-            email = privacySymbol  // 隐藏邮箱
-        })
+    Color_Print_Utils.getInstance().printlnYellow("\n请求路径: /user/userInfo(GET) | token: [${token}]")
+    val map = JwtUtil.parseToken(token)
+    val username = map["username"] as String
+    return ResultInfo.success(userService.findByUserName(username)?.apply {
+    this.password = privacySymbol  // 隐藏密码
+    userPic = privacySymbol  // 隐藏头像
+    email = privacySymbol  // 隐藏邮箱
+    })
     }
-    */
+     */
 
     @GetMapping("/userInfo")
-    fun userInfo() : ResultInfo {
+    fun userInfo(): ResultInfo {
         val map = ThreadLocalUtil.get() as Map<*, *>
         Color_Print_Utils.getInstance().printlnYellow("\n请求路径: /user/userInfo(GET) | ThreadLocal: [${map}]")
         return ResultInfo.success((userService.findByUserName(map["username"] as String) as User).apply {
@@ -146,8 +150,10 @@ open class UserController {
 
     @PostMapping("/update")
     fun update(@RequestBody user: User): ResultInfo {
-        Color_Print_Utils.getInstance().printlnYellow("\n请求路径: /user/update(POST) | user:\n" +
-                "${user.colorPrinterCyanBlackWithUser()}")
+        Color_Print_Utils.getInstance().printlnYellow(
+            "\n请求路径: /user/update(POST) | user:\n" +
+                    "${user.colorPrinterCyanBlackWithUser()}"
+        )
         userService.update(user.apply {
             if (id == null || nickname.isNullOrBlank() || email.isNullOrBlank()) return ResultInfo.error("参数错误或缺失")
             // nick匹配正则表达式: 1 - 10位，只能包含字母、数字、下划线
@@ -163,9 +169,10 @@ open class UserController {
     }
 
     @PatchMapping("/updateAvatar")
-    fun updateAvatar(@RequestParam avatarUrl: String) : ResultInfo {
+    fun updateAvatar(@RequestParam avatarUrl: String): ResultInfo {
         avatarUrl.let {
-            Color_Print_Utils.getInstance().printlnYellow("\n请求路径: /user/updateAvatar(PATCH) | avatarUrl: $avatarUrl")
+            Color_Print_Utils.getInstance()
+                .printlnYellow("\n请求路径: /user/updateAvatar(PATCH) | avatarUrl: $avatarUrl")
             if (!it.matches(Regex("^https?://.*$"))) return ResultInfo.error("头像URL格式错误")
         }
         userService.updateAvatar(avatarUrl)
@@ -173,7 +180,7 @@ open class UserController {
     }
 
     @PatchMapping("/updatePwd")
-    fun updatePwd(@RequestBody params: Map<String, String>, @RequestHeader("Authorization") token: String) : ResultInfo {
+    fun updatePwd(@RequestBody params: Map<String, String>, @RequestHeader("Authorization") token: String): ResultInfo {
         Color_Print_Utils.getInstance().printlnYellow("\n请求路径: /user/updatePwd(PATCH) | params: $params")
 
         // 校验参数
@@ -182,7 +189,8 @@ open class UserController {
                 return ResultInfo.error("参数错误或缺失")
             }
             val username = ThreadLocalUtil.get() as Map<*, *>
-            val user = userService.findByUserName(username["username"] as String)?: return ResultInfo.error("对应username未查询到用户")
+            val user = userService.findByUserName(username["username"] as String)
+                ?: return ResultInfo.error("对应username未查询到用户")
             if (user.password != Md5Util.getMD5String(it["old_pwd"] as String)) return ResultInfo.error("输入的旧密码错误")
             if (it["new_pwd"] != it["re_pwd"]) return ResultInfo.error("两次输入的新密码不一致")
             if (it["new_pwd"]?.matches(Regex("^[a-zA-Z0-9_]{5,16}$")) == false) {
@@ -195,5 +203,29 @@ open class UserController {
             operations.operations.delete(token)
         }
         return ResultInfo.success()
+    }
+
+    @GetMapping("/test")
+    @CrossOrigin(
+        origins = [
+            "http://localhost:5173", "http://localhost:5500",
+            "http://127.0.0.1:5173", "http://127.0.0.1:5500"
+        ], allowCredentials = "true"
+    )
+    fun testGet(): ResultInfo {
+        Color_Print_Utils.getInstance().printlnYellow("\n请求路径: /user/test(GET)")
+        return ResultInfo.success("/user/test(GET) | success")
+    }
+
+    @PostMapping("/test")
+    @CrossOrigin(
+        origins = [
+            "http://localhost:5173", "http://localhost:5500",
+            "http://127.0.0.1:5173", "http://127.0.0.1:"
+        ], allowCredentials = "true"
+    )
+    fun testPost(): ResultInfo {
+        Color_Print_Utils.getInstance().printlnYellow("\n请求路径: /user/test(POST)")
+        return ResultInfo.success("/user/test(POST) | success")
     }
 }

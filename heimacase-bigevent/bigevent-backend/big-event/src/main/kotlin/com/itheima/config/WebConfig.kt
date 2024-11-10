@@ -3,6 +3,7 @@ package com.itheima.config
 import com.itheima.intercpetors.LoginInterceptor
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Configuration
+import org.springframework.web.servlet.config.annotation.CorsRegistry
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
@@ -22,6 +23,17 @@ open class WebConfig : WebMvcConfigurer {
     override fun addInterceptors(registry: InterceptorRegistry) {
         // 登录接口和注册接口不拦截
         registry.addInterceptor(interceptor)
-            .excludePathPatterns("/user/login", "/user/register")
+            .excludePathPatterns(
+                "/user/login", "/user/register", "/user/test"
+            )
+    }
+
+    override fun addCorsMappings(registry: CorsRegistry) {
+        registry.addMapping("/**")  // 允许跨域访问所有接口
+           .allowedOrigins("http://localhost:5173", "http://127.0.0.1:5500")  // 允许跨域访问所有域名
+           .allowedMethods("*")  // 允许跨域访问所有请求方法
+           .allowedHeaders("*")  // 允许跨域访问所有请求头
+           .allowCredentials(true)  // 允许携带cookie
+           .maxAge(3600)  // 预检请求的有效期
     }
 }

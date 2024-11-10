@@ -8,9 +8,16 @@
 </head>
 
 <body>
+
+    <div id="app">
+        <h1>Test localhost:5500</h1><br>
+        <button v-on:click="test()">Test</button><br>
+        <span>{{ result }}</span>
+    </div>
+
     <!-- 引入Axios -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script>
+    <script type="module">
         // console.log("开始请求");
         // axios({
         //     method: 'get',
@@ -139,16 +146,24 @@
         //         console.log(json)
         //     }
         // }
-
-        axios.post('http://localhost:8080/user/register', {
-            username: "jimmy",
-            password: "jimmy"
-        }).then(res => {
-            console.log(res.data);
-            alert(res.data.message)
-        }).catch(err => {
-            console.log(err);
-        });
+        import { createApp } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
+        createApp({
+            data() {
+                return {
+                    result: ''
+                }
+            },
+            methods: {
+                test: function () {
+                    axios.post('http://localhost:8080/user/test')
+                        .then(res => {
+                            this.result = res.data;
+                        }).catch(err => {
+                            console.log(err);
+                        });
+                }
+            }
+        }).mount('#app');
 
     </script>
 </body>
