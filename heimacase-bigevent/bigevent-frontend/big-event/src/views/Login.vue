@@ -4,8 +4,11 @@ import { User, Lock, Warning } from '@element-plus/icons-vue'
 import { onMounted, ref } from 'vue'
 import { ElNotification, ElMessage } from 'element-plus'
 import { userRegisterService, userLoginService } from '@/api/user';
+
+import { useTokenStore } from '@/store/token';
+
 //控制注册与登录表单的显示， 默认显示
-const isRegister = ref(false)
+const isRegister = ref(true)
 const router = useRouter()
 
 const form = ref(null)
@@ -34,11 +37,15 @@ const login = async () => {
             return;
         }
         let result = await userLoginService(loginData.value);
+        const tokenStore = useTokenStore();
+        tokenStore.setToken(result.data); 
+
         // alert('登录成功! ');
-        ElNotification.success({
-            title: '登录成功',
-            offset: 250,
-        })
+        ElMessage({
+            // showClose: true,
+            message: '登录成功! ',
+            type: 'success',
+         })
         // 跳转到首页
         router.push('/')
     } catch (error) {
@@ -62,19 +69,18 @@ const register = async () => {
             return;
         }
         let result = await userRegisterService(registerData.value);
-        // alert('注册成功! ');
-        ElNotification.success({
-            title: '注册成功',
-            message: '您现在可以登录羽沫大事件！',
-            offset: 100,
-        })
-        // 跳转到登录页面
-        isRegister.value = true
+            // alert('注册成功! ');
+            ElMessage({
+                message: '您现在可以登录羽沫大事件！',
+                type:'success',
+            })
+            // 跳转到登录页面
+            isRegister.value = true
     } catch (error) {
-        ElMessage({
-            message: '注册失败! '+ error.message,
-            type: 'warning',
-        })
+            ElMessage({
+                message: '注册失败! '+ error.message,
+                type: 'warning',
+            })
     }
 }
 

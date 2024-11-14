@@ -1,4 +1,7 @@
 <script setup>
+import { useTokenStore } from '@/store/token';
+import { useRouter } from 'vue-router';
+
 import {
     Document,
     Management,
@@ -8,6 +11,15 @@ import {
     Edit,
     Crop
 } from '@element-plus/icons-vue'
+
+const router = useRouter()
+
+const funcLogout = () => {
+    const tokenStore = useTokenStore();
+    tokenStore.removeToken()
+    router.push('/login')
+}
+
 
 </script>
 
@@ -101,7 +113,7 @@ import {
 
                             </el-sub-menu>
 
-                            <el-menu-item index="/login">
+                            <el-menu-item index="" @click="funcLogout">
                                 <el-icon>
                                     <WarningFilled />
                                 </el-icon>
@@ -144,9 +156,12 @@ import {
                 <el-main style="
                     background-color: #636466;
                     /* border: #000000 2px solid; */
+                    display: flex;
                 ">
 
-                    <div style="height: 100%;
+                    <div style="
+                    /* height: 100%; */
+                    /* border: #000000 2px solid; */
                     width: 100%;
                     display: flex;
                     justify-content: center;
@@ -154,15 +169,16 @@ import {
                     border-radius: 7px;
                     background: #636466;    
                     box-shadow:  7px 7px 10px #464748,
-                    -7px -7px 10px #808184;">
+                    -7px -7px 10px #808184;
+                    ">
 
                         <div style="
                             height: 94%;
+                            /* height: auto; */
                             width:96%;
                             border-radius: 12px;
                             background-color: #fff;
                             display: flex;  /* 子元素水平排列 */
-                            flex-direction: column;  /* 子元素垂直排列 */
                             align-items: center;
                             justify-content: center;
                             box-shadow: inset 6px 6px 6px #464748,
@@ -173,7 +189,6 @@ import {
                             <!-- 在这里放置具体的页面内容，通过路由控制 -->
                             <RouterView></RouterView>
                         </div>
-
                     </div>
                 </el-main>
 
