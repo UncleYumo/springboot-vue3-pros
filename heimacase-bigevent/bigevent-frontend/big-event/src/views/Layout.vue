@@ -166,7 +166,7 @@ const funcLogout = () => {
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    border-radius: 7px;
+                    border-radius: 15px;
                     background: #636466;    
                     box-shadow:  7px 7px 10px #464748,
                     -7px -7px 10px #808184;

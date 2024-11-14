@@ -46,7 +46,6 @@ class ArticleController {
         return ResultInfo.success()
     }
 
-
     @GetMapping("/article")
     fun list(
         pageNum: Int,  // 当前页码

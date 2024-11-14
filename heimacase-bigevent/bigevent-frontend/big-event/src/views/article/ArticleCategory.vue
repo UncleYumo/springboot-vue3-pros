@@ -13,6 +13,7 @@
             ">
 
             <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                
                 <div style="
                 width: 110px;
                 height: 40px;
@@ -25,7 +26,7 @@
                 border-radius: 6px;
                 background: linear-gradient(145deg, #e6e6e6, #ffffff);
                 box-shadow:  5px 5px 10px #e6e6e6,
-                -5px -5px 10px #ffffff;
+                    -5px -5px 10px #ffffff;
             ">
                     <h3 style="
                     color:slategray;
@@ -42,7 +43,7 @@
                 width: 100%;
                 height: 450px;
                 /* border: 2px solid #ccc; */
-                ">
+                " v-loading="loading" element-loading-text="正在加载...">
                 <el-table-column prop="id" label="序号" type="index" width="100px" />
                 <el-table-column prop="categoryName" label="分类名称" width="150px" />
                 <el-table-column prop="categoryAlias" label="分类别名" width="150px" />
@@ -99,6 +100,8 @@ import { ElMessage, ElMessageBox } from 'element-plus';
 const FOREIGN_KEY_CONSTRAINTS = "CONSTRAINT `fk_article_category` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`))"
 const dialogVisible = ref(false)  // 弹窗是否可见
 
+const loading = ref(false)
+
 const categoryModel = ref({
     categoryName: '',
     categoryAlias: '',
@@ -138,7 +141,9 @@ const tableData = ref([
 // 调用接口新增分类
 const addCategory = async () => {
     // alert("addCategory + " + categoryModel.value)
+    loading.value = true
     let res = await articleCategoryAddService(categoryModel.value)
+    loading.value = false
     ElMessage({
         type: 'success',
         message: '新增分类成功'
@@ -152,7 +157,9 @@ const addCategory = async () => {
 const updateCategory = async () => {
     // console.log(categoryModel.value)
     // alert("updateCategory + " + categoryModel.value)
+    loading.value = true
     let res = await articlCategoryEditService(categoryModel.value)
+    loading.value = false
     ElMessage({
         type: 'success',
         message: '编辑分类成功'
@@ -174,7 +181,9 @@ const deleteCategory = (id) => {
         }
     )
         .then(async () => {
+            loading.value = true
             let res = await articleCategoryDeleteService(id)
+            loading.value = false
             articleCategoryList()
             ElMessage({
                 type: 'success',
@@ -198,8 +207,10 @@ onMounted(() => {
 })
 
 const articleCategoryList = async () => {
+    loading.value = true
     let res = await articleCategoryListService()
     tableData.value = res.data
+    loading.value = false
 }
 
 </script>

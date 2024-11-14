@@ -22,7 +22,7 @@ const routes = [
     {
         path: '/',
         component: LayoutVue,
-        redirect: '/article/category',
+        redirect: '/article/manage',
         children: [
             {
                 path: '/article/category',

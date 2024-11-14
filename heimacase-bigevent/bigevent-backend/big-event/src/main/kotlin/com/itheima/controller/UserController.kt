@@ -70,9 +70,10 @@ open class UserController {
     }
 
     @PostMapping("/login")
-    fun login(@RequestBody params: Map<String, String>, response: HttpServletResponse): ResultInfo {
-        val username: String? = params["username"]?: ""
-        val password: String? = params["password"]?: ""
+    fun login(
+        username: String?,
+        password: String?,
+        response: HttpServletResponse): ResultInfo {
         Color_Print_Utils.getInstance()
             .printlnYellow("\n请求路径: /user/login(POST) | username: $username, password: $password")
         // 验证用户名和密码是否合法
@@ -208,9 +209,8 @@ open class UserController {
     @GetMapping("/test")
     @CrossOrigin(
         origins = [
-            "http://localhost:5173", "http://localhost:5500",
-            "http://127.0.0.1:5173", "http://127.0.0.1:5500"
-        ], allowCredentials = "true"
+            "*"
+        ], allowCredentials = "false"
     )
     fun testGet(): ResultInfo {
         Color_Print_Utils.getInstance().printlnYellow("\n请求路径: /user/test(GET)")
@@ -220,9 +220,8 @@ open class UserController {
     @PostMapping("/test")
     @CrossOrigin(
         origins = [
-            "http://localhost:5173", "http://localhost:5500",
-            "http://127.0.0.1:5173", "http://127.0.0.1:"
-        ], allowCredentials = "true"
+            "*"
+        ], allowCredentials = "false"
     )
     fun testPost(): ResultInfo {
         Color_Print_Utils.getInstance().printlnYellow("\n请求路径: /user/test(POST)")

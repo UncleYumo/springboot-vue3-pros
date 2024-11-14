@@ -31,3 +31,8 @@ export const articlCategoryEditService = (categoryData) => {
 export const articleCategoryDeleteService = (id) => {
     return instance.delete('/category' + `?id=${id}`)
 }
+
+// 文章列表查询
+export const articleListService = (params) => {
+    return instance.get('/article',{params: params})
+}
