@@ -1,7 +1,8 @@
 <script setup>
 import { useTokenStore } from '@/store/token';
 import { useRouter } from 'vue-router';
-
+import { userInfoService } from '@/api/user';
+import useUserInfoStore from '@/store/userInfo';
 import {
     Document,
     Management,
@@ -9,17 +10,67 @@ import {
     WarningFilled,
     User,
     Edit,
-    Crop
+    Crop,
+    ArrowDown,
 } from '@element-plus/icons-vue'
+import { ElMessage, ElMessageBox } from 'element-plus'
+
+import default_avatar from '@/assets/default.png'
 
 const router = useRouter()
 
+const userInfoStore = useUserInfoStore()
+
 const funcLogout = () => {
-    const tokenStore = useTokenStore();
-    tokenStore.removeToken()
-    router.push('/login')
+
+    ElMessageBox.confirm(
+        '您确定要退出登录吗？',
+        'Warning',
+        {
+            confirmButtonText: '退出',
+            cancelButtonText: '取消',
+            type: 'warning',
+        }
+    ).then(() => {
+        const tokenStore = useTokenStore();
+        tokenStore.removeToken()
+        userInfoStore.removeInfo()
+        router.push('/login')
+    }).catch(() => {
+        ElMessage({
+            type: 'info',
+            message: '已取消',
+        })
+    })
 }
 
+const getUserInfo = async () => {
+    let res = await userInfoService()
+    userInfoStore.setInfo(res.data)
+}
+
+getUserInfo()
+
+const testFunction = () => {
+    alert('testFunction')
+}
+
+const handCommand = (command) => {
+    switch (command) {
+        case 'logout':
+            funcLogout()
+            break
+        case 'info':
+            router.push('/user/info')
+            break
+        case 'avatar':
+            router.push('/user/avatar')
+            break
+        case 'reset-password':
+            router.push('/user/reset-password')
+            break
+    }
+}
 
 </script>
 
@@ -43,8 +94,8 @@ const funcLogout = () => {
                                 font-weight: bold;
                                 text-shadow: 2px 2px 2px #000000;
                                 ">
-                                    <span style="color: #fff;">羽沫</span>
-                                    <span style="color: tomato;">大事件</span>
+                                <span style="color: #fff;">羽沫</span>
+                                <span style="color: tomato;">大事件</span>
                             </span><br>
                             <span style="
                                 color: white;
@@ -87,7 +138,7 @@ const funcLogout = () => {
                                     <span style="font-size:larger; font-weight: 600;
                                     text-shadow: 1px 2px 2px #000000">个人中心</span>
                                 </template>
-                                <el-menu-item index="/user/avatar">
+                                <el-menu-item index="/user/info">
                                     <el-icon>
                                         <User></User>
                                     </el-icon>
@@ -95,7 +146,7 @@ const funcLogout = () => {
                                         text-shadow: 1px 2px 2px #000000">基本资料</span>
                                 </el-menu-item>
 
-                                <el-menu-item index="/user/info">
+                                <el-menu-item index="/user/avatar">
                                     <el-icon>
                                         <Crop></Crop>
                                     </el-icon>
@@ -118,7 +169,7 @@ const funcLogout = () => {
                                     <WarningFilled />
                                 </el-icon>
                                 <span style="font-size:larger; font-weight: 600;
-                                text-shadow: 1px 2px 2px #000000">切换账号</span>
+                                text-shadow: 1px 2px 2px #000000">退出登录</span>
 
                             </el-menu-item>
 
@@ -148,6 +199,73 @@ const funcLogout = () => {
                         border-radius: 10px;
                         box-shadow: inset 6px 6px 6px #464748;
                     ">
+
+                        <div style="
+                        width: 95%;
+                        height: 70%;
+                        /* background-color: wheat; */
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                    ">
+                            <div>
+                                <span style="
+                                    font-size: 25px;
+                                    font-weight: bolder;
+                                    color: #464748;
+                                    text-shadow: 1px 1px 1px #808184;
+                                ">
+                                    羽沫大事件&nbsp;:&nbsp;
+                                </span>
+                                <span style="
+                                    font-size: 25px;
+                                    font-weight: bold;
+                                    color: tomato;
+                                    text-shadow: 1px 1px 1px #808184;
+                                ">
+                                    {{ userInfoStore.info.nickname }}
+                                </span>
+                            </div>
+
+                            <div>
+                                <el-dropdown @command="handCommand">
+                                    <span class="el-dropdown-link">
+                                        <el-avatar
+                                            :src="userInfoStore.info.userPic ? userInfoStore.info.userPic : default_avatar"
+                                            style="margin-top: 10px;">
+                                        </el-avatar>
+                                        <el-icon class="el-icon--right">
+                                            <arrow-down />
+                                        </el-icon>
+                                    </span>
+                                    <template #dropdown>
+                                        <el-dropdown-menu>
+                                            <el-dropdown-item command="info">
+                                                <el-icon>
+                                                    <User />
+                                                </el-icon>基本资料
+                                            </el-dropdown-item>
+                                            <el-dropdown-item command="avatar">
+                                                <el-icon>
+                                                    <Crop />
+                                                </el-icon>更换头像
+                                            </el-dropdown-item>
+                                            <el-dropdown-item command="reset-password">
+                                                <el-icon>
+                                                    <Edit />
+                                                </el-icon>重置密码
+                                            </el-dropdown-item>
+                                            <el-dropdown-item command="logout">
+                                                <el-icon>
+                                                    <WarningFilled />
+                                                </el-icon>退出登录
+                                            </el-dropdown-item>
+                                        </el-dropdown-menu>
+                                    </template>
+                                </el-dropdown>
+                            </div>
+
+                        </div>
 
                     </div>
                 </el-header>

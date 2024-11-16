@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@vueup/vue-quill": "^1.2.0",
     "axios": "^1.7.7",
     "element-plus": "^2.8.7",
     "pinia": "^2.2.6",

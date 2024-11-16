@@ -36,3 +36,15 @@ export const articleCategoryDeleteService = (id) => {
 export const articleListService = (params) => {
     return instance.get('/article',{params: params})
 }
+
+export const articleAddService = (articleData) => {
+    return instance.post('/article', articleData)
+}
+
+export const articleDeleteService = (article_id) => {
+    return instance.delete('/article' + `?id=${article_id}`)
+}
+
+export const articleQueryByIdService = (article_id) => {
+    return instance.get('/article/detail' + `?id=${article_id}`)
+}

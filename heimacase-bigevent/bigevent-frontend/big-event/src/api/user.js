@@ -16,3 +16,19 @@ export const userLoginService = (loginData) => {
     }
     return request.post('user/login', params)
 }
+
+export const userInfoService = () => {
+    return request.get('user/userInfo')
+}
+
+export const userInfoUpdateService = (userData) => {
+    return request.post('/user/update', userData)
+}
+
+export const userAvatarUpdateService = (avatar_url) => {
+    return request.patch('/user/updateAvatar?avatarUrl=' + avatar_url)
+}
+
+export const userPasswordUpdateService = (passwordData) => {
+    return request.patch('/user/updatePwd', passwordData)
+}

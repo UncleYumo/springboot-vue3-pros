@@ -13,12 +13,13 @@ import { ElMessage } from 'element-plus';
 
 //定义一个变量,记录公共的前缀  ,  baseURL
 // const baseURL = 'http://localhost:8080';
-// const baseURL = 'http://uncleyumo.cn/big-event/api';
-const baseURL = '/api';
+const baseURL = 'https://uncleyumo.cn/big-event';
+// const baseURL = '/api';
 
 const FOREIGN_KEY_CONSTRAINTS = "CONSTRAINT `fk_article_category` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`))"
 
 const instance = axios.create({baseURL})
+
 instance.interceptors.request.use(
     (config)=> {
         // 添加token
