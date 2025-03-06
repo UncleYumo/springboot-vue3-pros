@@ -30,7 +30,7 @@ open class WebConfig : WebMvcConfigurer {
 
     override fun addCorsMappings(registry: CorsRegistry) {
         registry.addMapping("/**")  // 允许跨域访问所有接口
-           .allowedOrigins("http://localhost:5173", "http:news.uncleyumo.cn")  // 允许跨域访问所有域名
+           .allowedOrigins("http://localhost:5173", "https://news.uncleyumo.cn")  // 允许跨域访问所有域名
            .allowedMethods("*")  // 允许跨域访问所有请求方法
            .allowedHeaders("*")  // 允许跨域访问所有请求头
            .allowCredentials(true)  // 允许携带cookie

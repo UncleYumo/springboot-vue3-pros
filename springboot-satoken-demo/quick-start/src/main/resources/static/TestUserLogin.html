@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <h1>测试用户登录</h1>
+    <form action="/acc/doLogin" method="post">
+        <label for="username">用户名:</label>
+        <input type="text" id="username" name="username"><br><br>
+        <label for="password">密码:</label>
+        <input type="password" id="password" name="password"><br><br>
+        <input type="submit" value="登录">
+    </form>
+</div>
+<div>
+    <h1>获取用户消息</h1>
+    <form action="acc/userInfo" method="get">
+        <input type="submit" value="获取消息">
+    </form>
+</div>
+<div>
+    <h1>测试用户退登</h1>
+    <form action="acc/logout" method="get">
+        <input type="submit" value="退登">
+    </form>
+</div>
+<div>
+    <h1>校验用户登录状态</h1>
+    <form action="acc/checkLogin" method="get">
+        <input type="submit" value="查看登录状态">
+    </form>
+</div>
+<div>
+    <h1>查看用户登录状态</h1>
+    <form action="acc/isLogin" method="get">
+        <input type="submit" value="查看登录状态">
+    </form>
+</div>
+<div>
+    <h1>查询Token信息</h1>
+    <form action="acc/tokenInfo" method="get">
+        <input type="submit" value="查询Token信息">
+    </form>
+</div>
+</body>
+</html>

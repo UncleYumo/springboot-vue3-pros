@@ -29,18 +29,15 @@ class LoginInterceptor : HandlerInterceptor {
     override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
         // 跨域请求
         if (request.method == "OPTIONS") {
-            response.status = 200  // 允许跨域请求
-            response.setHeader(
-                "Access-Control-Allow-Origin",
-                "*"
-            )
-            response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT")
+            val origin = request.getHeader("Origin")
+            response.setHeader("Access-Control-Allow-Origin", origin)
+            response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT, PATCH")
             response.setHeader("Access-Control-Max-Age", "3600")
             response.setHeader("Access-Control-Allow-Headers", "x-requested-with, authorization, content-type")
+            response.status = 200  // 允许跨域请求
             Color_Print_Utils.getInstance().printlnGreen("\n登录拦截器 | 跨域预检请求")
             return false  // 验证成功
         }
-
 
         // 令牌验证
         val token = request.getHeader("Authorization")

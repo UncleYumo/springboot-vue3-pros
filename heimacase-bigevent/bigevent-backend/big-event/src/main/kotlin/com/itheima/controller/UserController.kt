@@ -143,9 +143,8 @@ open class UserController {
         Color_Print_Utils.getInstance().printlnYellow("\n请求路径: /user/userInfo(GET) | ThreadLocal: [${map}]")
         return ResultInfo.success((userService.findByUserName(map["username"] as String) as User).apply {
             this.password = privacySymbol  // 隐藏密码
-            userPic = privacySymbol  // 隐藏头像
-            email = privacySymbol  // 隐藏邮箱
-            userPic = privacySymbol  // 隐藏头像
+//            userPic = privacySymbol  // 隐藏头像
+//            email = privacySymbol  // 隐藏邮箱
         })
     }
 
